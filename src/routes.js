@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Menu from './pages/Menu'
+import Produto from './pages/Produto'
 import Carrinho from './pages/Carrinho'
 import Pedidos from './pages/Pedidos'
 import Perfil from './pages/Perfil'
@@ -69,7 +70,7 @@ export default function Routes() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false}}>
         <Stack.Screen name="Home" component={Tabs} />
-        <Stack.Screen name="DetailsProduct" component={Perfil} />
+        <Stack.Screen name="DetailsProduct" component={Produto} />
       </Stack.Navigator>
     </NavigationContainer>
   );

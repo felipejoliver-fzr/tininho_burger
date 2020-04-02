@@ -30,7 +30,6 @@ export default function Menu() {
 
     const navigation = useNavigation()
 
-
     async function loadProdutos() {
 
         if (loading) {
@@ -46,7 +45,9 @@ export default function Menu() {
     }
 
     function navigateToDetailProduct(produto) {
+        console.log(produto)
         navigation.navigate('DetailsProduct', { produto })
+        
     }
 
     useEffect(() => {
@@ -61,7 +62,7 @@ export default function Menu() {
                 <TouchableOpacity
                     style={styles.rowProduto} 
                     key={produto.id}
-                    onPress={() => navigateToDetailProduct()}
+                    onPress={() => navigateToDetailProduct(produto)}
                  >
                     <Image style={styles.imgProduto} source={lancheImg} />
                     <View style={styles.detalhesProduto}>

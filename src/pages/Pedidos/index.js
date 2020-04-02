@@ -4,8 +4,8 @@ import { View, Text } from 'react-native'
 
 export default function Pedidos(){
     return (
-        <View>
-            <Text>Tela Pedidos</Text>
+        <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+            <Text style={{fontSize: 30}}>Tela Pedidos</Text>
         </View>
     )
 }
