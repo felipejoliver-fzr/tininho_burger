@@ -29,10 +29,8 @@ export default StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        
         paddingTop: Constants.statusBarHeight,
         justifyContent: 'space-between',
-        
         alignItems: 'center'
         
     },
