@@ -1,16 +1,18 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import styles from './styles'
+
+import lancheImg from '../../assets/imgs-em-alta/burger.jpg'
 
 export default function Produto(){
 
     const navigation = useNavigation()
     const route = useRoute()
 
-    const dadosProduto = route.params.produto
+    const dadosProduto = route.params.produtoß
 
     function navigateBack(){
         navigation.goBack()
@@ -24,6 +26,10 @@ export default function Produto(){
                 </TouchableOpacity>
 
                 <Text style={styles.titleHeader}>DETALHES DO ITEM</Text>
+            </View>
+
+            <View style={styles.containerImgProduto}>
+                <Image source={lancheImg} style={styles.imageProduto} />
             </View>
 
             

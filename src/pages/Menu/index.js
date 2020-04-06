@@ -6,7 +6,9 @@ import {
     TouchableOpacity,
     FlatList,
     TouchableHighlight,
-    ScrollView
+    ScrollView,
+    Dimensions,
+    TextInput
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -39,20 +41,21 @@ export default function Menu() {
         setLoading(true)
 
         const response = await api.get('menu')
-
+        console.log(response)
         setProdutos([...produtos, ...response.data])
-        console.log(response.data)
+        
     }
 
     function navigateToDetailProduct(produto) {
         console.log(produto)
         navigation.navigate('DetailsProduct', { produto })
-        
+
     }
 
     useEffect(() => {
 
         loadProdutos()
+        
 
     }, [])
 
@@ -60,10 +63,10 @@ export default function Menu() {
         return produtos.map((produto, index) => {
             return (
                 <TouchableOpacity
-                    style={styles.rowProduto} 
+                    style={styles.rowProduto}
                     key={produto.id}
                     onPress={() => navigateToDetailProduct(produto)}
-                 >
+                >
                     <Image style={styles.imgProduto} source={lancheImg} />
                     <View style={styles.detalhesProduto}>
                         <View style={styles.containerTituloProduto}>
@@ -90,88 +93,84 @@ export default function Menu() {
     }
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Image source={logoImg} />
-                    <Text style={styles.headerText}>
-                        Bem-vindo!
-                </Text>
-                </View>
+        <View style={styles.container}>
 
-                <View style={styles.containerCategorias}>
-                    <Text style={styles.headerText}>
-                        Categorias
-                </Text>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={styles.containerScroll}>
 
-                    <View style={styles.categorias}>
-
-                        <TouchableOpacity>
-                            <View style={[styles.btnCategoria, { paddingRight: 10 }]}>
-                                <Image style={styles.imgCategoria} source={lancheImg} />
-                                <Text >Lanches</Text>
-                            </View>
-
-                        </TouchableOpacity>
-
-                        <TouchableOpacity>
-                            <View style={[styles.btnCategoria, { paddingRight: 10 }]}>
-                                <Image style={styles.imgCategoria} source={bebidasImg} />
-                                <Text >Bebidas</Text>
-                            </View>
-
-                        </TouchableOpacity>
-
-                        <TouchableOpacity>
-                            <View style={styles.btnCategoria}>
-                                <Image style={styles.imgCategoria} source={sobremesasImg} />
-                                <Text >Sobremesas</Text>
-                            </View>
-
-                        </TouchableOpacity>
-
+                <View style={styles.headerContainer}>
+                    <View style={styles.header}>
+                        <Image source={logoImg} />
+                        <View style={styles.headerText}>
+                            <Text style={{
+                                fontSize: 35,
+                                fontWeight: '500',
+                                color: '#47525e'
+                            }}>
+                                Bem-vindo!
+                        </Text>
+                        </View>
                     </View>
+
                 </View>
 
-                <View>
+                <View style={styles.containerLista}>
 
-                    <Text style={styles.tituloListaProdutos}>Carnes Bovínas</Text>
+                    <View style={styles.containerCategorias}>
+                        <Text style={styles.tituloCategorias}>
+                            Categorias
+                    </Text>
 
-                    {showProdutos()}
-                    {/* <FlatList
-                        style={styles.produtosList}
-                       
-                        data={produtos}
-                        keyExtractor={produto => String(produto.id)}
-                        showsVerticalScrollIndicator={false}
-                        ListHeaderComponent={<Text style={styles.tituloListaProdutos}>Carnes Bovínas</Text>}
-                        renderItem={({ item: produto }) => (
+                        <View style={styles.categorias}>
 
-                            <View style={styles.rowProduto}>
-                                <Image style={styles.imgProduto} source={lancheImg} />
-                                <View style={styles.detalhesProduto}>
-                                    <Text style={styles.tituloProduto}>{produto.titulo}</Text>
-                                    <Text style={styles.descricaoProduto}>{produto.descricao}</Text>
-                                    <Text>{produto.valorBase}</Text>
+                            <TouchableOpacity>
+                                <View style={[styles.btnCategoria, { paddingRight: 10 }]}>
+                                    <Image style={styles.imgCategoria} source={lancheImg} />
+                                    <Text >Lanches</Text>
                                 </View>
 
-                            </View>
+                            </TouchableOpacity>
 
-                        )}
-                    /> */}
+                            <TouchableOpacity>
+                                <View style={[styles.btnCategoria, { paddingRight: 10 }]}>
+                                    <Image style={styles.imgCategoria} source={bebidasImg} />
+                                    <Text >Bebidas</Text>
+                                </View>
+
+                            </TouchableOpacity>
+
+                            <TouchableOpacity>
+                                <View style={styles.btnCategoria}>
+                                    <Image style={styles.imgCategoria} source={sobremesasImg} />
+                                    <Text >Sobremesas</Text>
+                                </View>
+
+                            </TouchableOpacity>
+
+                        </View>
+                    </View>
+
+                    <View>
+
+                        <Text style={styles.tituloListaProdutos}>Carnes Bovínas</Text>
+
+                        {showProdutos()}
+
+                    </View>
+
+                    <View>
+
+                        <Text style={styles.tituloListaProdutos}>Vegetarianos</Text>
+
+                        {showProdutos()}
+
+                    </View>
+
                 </View>
+            </ScrollView>
 
-                <View>
-
-                    <Text style={styles.tituloListaProdutos}>Vegetarianos</Text>
-
-                    {showProdutos()}
-
-                </View>
-
-
-            </View>
-        </ScrollView>
+        </View>
 
     )
 }

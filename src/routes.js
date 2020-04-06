@@ -1,4 +1,5 @@
 import React from 'react'
+import { Dimensions } from 'react-native'
 import { MaterialCommunityIcons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -12,6 +13,7 @@ import Pedidos from './pages/Pedidos'
 import Perfil from './pages/Perfil'
 
 const Tab = createBottomTabNavigator();
+const windowHeight = Dimensions.get('window').height
 
 export default function Routes() {
 
@@ -20,7 +22,8 @@ export default function Routes() {
       <Tab.Navigator
         tabBarOptions={{
           labelStyle: { fontSize: 12, marginBottom: 5 },
-          activeTintColor: '#cf1717'
+          activeTintColor: '#cf1717',
+          style: {backgroundColor: '#fafafa'}
         }}
 
       >
