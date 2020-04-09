@@ -14,7 +14,7 @@ export default StyleSheet.create({
     },
     headerContainer: {
         paddingHorizontal: 10,
-        
+        height: Constants.statusBarHeight + 45
     },
     header: {
         flexDirection: 'row',
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     },
     titleHeader: {
         flex: 3,
-        fontSize: 25
+        fontSize: 20
     },
     containerLista: {
         paddingHorizontal: 15,
@@ -38,7 +38,7 @@ export default StyleSheet.create({
     imageProduto: { 
         
         width: width -30,
-        height: width * 3 / 5,
+        height: width * 3 / 6,
         //resizeMode: 'contain',
         
     },
@@ -90,6 +90,39 @@ export default StyleSheet.create({
     textSinalizadorObrigatorio: {
         fontWeight: 'bold',
         color: '#ffffff'
-    }
+    },
+    rowAdicional: {
+        marginTop: 10,
+        height: 50,
+        flexDirection: 'row',
+        paddingHorizontal: 15,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    tituloIngrediente: {
+        fontSize: 20,
+        fontWeight: '400'
+    },
+    valorIngrediente: {
+        fontSize: 20,
+        fontWeight: '200'
+    },
+    // done: {
+    //     height: 25,
+    //     width: 25,
+    //     borderRadius: 13,
+    //     borderWidth: 1,
+    //     borderColor: 'black',
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    // },
+    // doneInterna: {
+    //     height: 15,
+    //     width: 15,
+    //     borderRadius: 10,
+    //     backgroundColor: '#000',
+    //     alignItems: 'center',
+    //     justifyContent: 'center'
+    // }
 
 })
