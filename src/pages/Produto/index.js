@@ -132,8 +132,8 @@ export default function Produto() {
 
                 </View>
 
-                {showIngredientesAdicionais()}
-
+                {/* {showIngredientesAdicionais()} */}
+                <RadioButtom />
                 
             </ScrollView>
         </View>

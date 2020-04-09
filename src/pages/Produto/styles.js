@@ -91,22 +91,22 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: '#ffffff'
     },
-    rowAdicional: {
-        marginTop: 10,
-        height: 50,
-        flexDirection: 'row',
-        paddingHorizontal: 15,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    tituloIngrediente: {
-        fontSize: 20,
-        fontWeight: '400'
-    },
-    valorIngrediente: {
-        fontSize: 20,
-        fontWeight: '200'
-    },
+    // rowAdicional: {
+    //     marginTop: 10,
+    //     height: 50,
+    //     flexDirection: 'row',
+    //     paddingHorizontal: 15,
+    //     justifyContent: 'space-between',
+    //     alignItems: 'center',
+    // },
+    // tituloIngrediente: {
+    //     fontSize: 20,
+    //     fontWeight: '400'
+    // },
+    // valorIngrediente: {
+    //     fontSize: 20,
+    //     fontWeight: '200'
+    // },
     // done: {
     //     height: 25,
     //     width: 25,
