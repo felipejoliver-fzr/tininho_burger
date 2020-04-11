@@ -21,17 +21,18 @@ export default function Produto() {
             min: 1,
             max: 1,
             obrigatorio: true,
+            escolhaUnica: true,
             opcoes: [
                 {
                     id: 1,
                     titulo: '100 gramas',
-                    valor: 12,
-                    ativo: false,
+                    valor: 0,
+                    ativo: true,
                 },
                 {
                     id: 2,
                     titulo: '200 gramas',
-                    valor: 15,
+                    valor: 7,
                     ativo: false,
                 }
 
@@ -43,6 +44,7 @@ export default function Produto() {
             min: 0,
             max: 2,
             obrigatorio: false,
+            escolhaUnica: false,
             opcoes: [
                 {
                     id: 1,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 
@@ -6,34 +6,79 @@ export default props => {
 
     let [ativo, setAtivo] = useState(false)
     let [ingredientes, setIngredientes] = useState(props.dados.ingredientes)
-    let [quantidadeIngredienteSelecionado, setQuantidadeIngredienteSelecionado] = useState(0)
     let [quantidadeProduto, setQuantidadeProduto] = useState(1)
     let [valorTotalProduto, setValorTotalProduto] = useState(props.dados.valorBase)
 
-
-    function selecionou(indexOpcaoSelecionada, indexIngredienteSelecionado, isActive) {
-
-        let cloneState = ingredientes
+    function setaProdutoEscolhaUnica(cloneState, indexOpcaoSelecionada, indexIngredienteSelecionado) {
 
         for (let c = 0; c < cloneState[indexIngredienteSelecionado].opcoes.length; c++) {
             if (indexOpcaoSelecionada !== c) {
                 cloneState[indexIngredienteSelecionado].opcoes[c].ativo = false;
             } else {
-                if (isActive) {
-                    cloneState[indexIngredienteSelecionado].opcoes[c].ativo = false;
-
-                } else {
+                
                     cloneState[indexIngredienteSelecionado].opcoes[c].ativo = true;
-                }
+                
             }
+        }
+
+        return cloneState
+
+    }
+
+    function setaProdutoVariasEscolhas(cloneState, indexOpcaoSelecionada, indexIngredienteSelecionado, isActive) {
+        
+        if(!isActive){
+
+            cloneState[indexIngredienteSelecionado].opcoes[indexOpcaoSelecionada].ativo = true;
+
+        } else {
+
+            cloneState[indexIngredienteSelecionado].opcoes[indexOpcaoSelecionada].ativo = false;
+
+        }
+
+        return cloneState
+        
+    }
+
+    function recalcularValorProduto(){
+        const valorBase = props.dados.valorBase
+
+        let valorItensSelecionados = 0
+
+        //calcula o valor dos itens selecionaveis
+        ingredientes.map((objIngrediente) => {
+            objIngrediente.opcoes.map((opcao) => {
+                if(opcao.ativo){
+                    valorItensSelecionados = valorItensSelecionados + opcao.valor
+                }
+            })
+        })
+
+        let valorTotalProduto = (valorBase + valorItensSelecionados) * quantidadeProduto
+        setValorTotalProduto(valorTotalProduto)
+
+    }
+
+    function selecionou(indexOpcaoSelecionada, indexIngredienteSelecionado, isActive) {
+
+        let cloneState = ingredientes
+
+        let escolhaUnica = cloneState[indexIngredienteSelecionado].escolhaUnica
+        
+        if(escolhaUnica){
+
+            cloneState = setaProdutoEscolhaUnica(cloneState, indexOpcaoSelecionada, indexIngredienteSelecionado)
+            
+        } else {
+
+            cloneState = setaProdutoVariasEscolhas(cloneState, indexOpcaoSelecionada, indexIngredienteSelecionado, isActive)
+        
         }
 
         setIngredientes(cloneState)
         setAtivo(!ativo)
-
-        if (cloneState[indexIngredienteSelecionado].min == 1) {
-            setQuantidadeIngredienteSelecionado(1)
-        }
+        recalcularValorProduto()
 
     }
 
@@ -58,7 +103,10 @@ export default props => {
 
                     <View style={{ flexDirection: 'column', marginBottom: 10 }}>
                         <Text style={styles.tituloIngrediente}>{ingredi.titulo}</Text>
-                        <Text style={styles.valorIngrediente}>+ R$ {ingredi.valor}</Text>
+                        <Text style={styles.valorIngrediente}>+ {Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    }).format(ingredi.valor)}</Text>
                     </View>
 
                     <View style={styles.done}>
@@ -71,25 +119,23 @@ export default props => {
 
     }
 
+    //quando a variavel de estado quantidadeProduto recebe uma modificação, automaticamente chama a função de reclauclarValorProduto 
+    useEffect(() => {
+        recalcularValorProduto()
+    }, [quantidadeProduto])
+
     function quantidadeProdutoCarrinho(tipo) {
         
-        let quantidade = quantidadeProduto;
-
         switch (tipo) {
             case 'adicionar':
-                quantidade = quantidadeProduto + 1
-                setQuantidadeProduto(quantidade)
+                setQuantidadeProduto(quantidadeProduto + 1)
                 break
             case 'subtrair':
                 if (quantidadeProduto > 1 ) {
-                    console.log('caiu aqui')
-                    quantidade = quantidadeProduto - 1
-                setQuantidadeProduto(quantidade)
+                setQuantidadeProduto(quantidadeProduto - 1)
                 }
                 break
         }
-
-        setValorTotalProduto(props.dados.valorBase * quantidade)
 
     }
 
@@ -103,12 +149,12 @@ export default props => {
 
                         <View>
                             <Text style={styles.tituloTarja}>{ingrediente.titulo}</Text>
-                            <Text style={styles.quantidadeIngredienteObrigatorios}>
+                            {/* <Text style={styles.quantidadeIngredienteObrigatorios}>
                                 <Text style={styles.quantidadeIngredientes}>{quantidadeIngredienteSelecionado}</Text>
                                 <Text> de </Text>
                                 <Text style={styles.quantidadeIngredientes}>{ingrediente.max}</Text>
 
-                            </Text>
+                            </Text> */}
                         </View>
 
                         {ingrediente.obrigatorio &&
