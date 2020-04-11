@@ -53,44 +53,41 @@ export default StyleSheet.create({
         fontSize: 18,
         fontWeight: '100',
     },
-    tarjaIngredientes: {
-        marginTop: 10,
-        height: 50,
-        backgroundColor: '#f0f1f3',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 15,
-    },
-    descricaoTarja: {
-        
-    },
-    sinalizadorObrigatorio: {
-        backgroundColor: '#2B343D',
-        width: 110,
-        height: 20,
-        padding: 1,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    tituloTarja: {
-        fontSize: 20,
-        fontWeight: '400'
+    // tarjaIngredientes: {
+    //     marginTop: 10,
+    //     height: 50,
+    //     backgroundColor: '#f0f1f3',
+    //     flexDirection: 'row',
+    //     alignItems: 'center',
+    //     justifyContent: 'space-between',
+    //     paddingHorizontal: 15,
+    // },
+    // sinalizadorObrigatorio: {
+    //     backgroundColor: '#2B343D',
+    //     width: 110,
+    //     height: 20,
+    //     padding: 1,
+    //     borderRadius: 5,
+    //     alignItems: 'center',
+    //     justifyContent: 'center'
+    // },
+    // tituloTarja: {
+    //     fontSize: 20,
+    //     fontWeight: '400'
        
-    },
-    quantidadeIngredienteObrigatorios: {
-        fontSize: 15,
-        fontWeight: '300',
-    },
-    quantidadeIngredientes: {
-        fontWeight: '500',
+    // },
+    // quantidadeIngredienteObrigatorios: {
+    //     fontSize: 15,
+    //     fontWeight: '300',
+    // },
+    // quantidadeIngredientes: {
+    //     fontWeight: '500',
         
-    },
-    textSinalizadorObrigatorio: {
-        fontWeight: 'bold',
-        color: '#ffffff'
-    },
+    // },
+    // textSinalizadorObrigatorio: {
+    //     fontWeight: 'bold',
+    //     color: '#ffffff'
+    // },
     // rowAdicional: {
     //     marginTop: 10,
     //     height: 50,

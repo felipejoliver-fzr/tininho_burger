@@ -1,43 +1,94 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 
 export default props => {
 
+
     let ingredientesAdicionais = [
+        
         {
-            id: 1,
-            titulo: '100 gramas',
-            valor: 12,
-            ativo: false,
+            titulo: 'Escolha o hambúrguer',
+            min: 1,
+            max: 1,
+            obrigatorio: true,
+            opcoes: [
+                {
+                    id: 1,
+                    titulo: '100 gramas',
+                    valor: 12,
+                    ativo: false,
+                },
+                {
+                    id: 2,
+                    titulo: '200 gramas',
+                    valor: 15,
+                    ativo: false,
+                }
+
+            ]
+
         },
         {
-            id: 2,
-            titulo: '200 gramas',
-            valor: 15,
-            ativo: false,
+            titulo: 'Extras',
+            min: 0,
+            max: 2,
+            obrigatorio: false,
+            opcoes: [
+                {
+                    id: 1,
+                    titulo: 'Ovo frito',
+                    valor: 1.50,
+                    ativo: false,
+                },
+                {
+                    id: 2,
+                    titulo: 'Queijo',
+                    valor: 2,
+                    ativo: false,
+                }
+
+            ]
+
         }
     ]
 
-
-
+    let valorBase = 25.90
     let [ativo, setAtivo] = useState(false)
-
     let [ingredientes, setIngredientes] = useState(ingredientesAdicionais)
+    let [testeingredientes, settesteingredientes] = useState(props)
+    let [quantidadeIngredienteSelecionado, setQuantidadeIngredienteSelecionado] = useState(0)
+    let [quantidadeProduto, setQuantidadeProduto] = useState(0)
+    let [valorTotalProduto, setValorTotalProduto] = useState(valorBase)
 
-    function selecionou(index) {
+
+    function selecionou(indexOpcaoSelecionada, indexIngredienteSelecionado, isActive) {
+
+        console.log(testeingredientes)
+
         let cloneState = ingredientes
-        for (let c = 0; c < ingredientes.length; c++) {
 
-            cloneState[c].ativo = false
+        for (let c = 0; c < cloneState[indexIngredienteSelecionado].opcoes.length; c++) {
+            if (indexOpcaoSelecionada !== c) {
+                cloneState[indexIngredienteSelecionado].opcoes[c].ativo = false;
+            } else {
+                if (isActive) {
+                    cloneState[indexIngredienteSelecionado].opcoes[c].ativo = false;
 
+
+                } else {
+                    cloneState[indexIngredienteSelecionado].opcoes[c].ativo = true;
+                }
+            }
         }
-        cloneState[index].ativo = true;
 
         setIngredientes(cloneState)
-
-        console.log(ingredientes)
-        //console.log(ingredientes, "Aaaaaaaaaaaaaa")
         setAtivo(!ativo)
+
+        if (cloneState[indexIngredienteSelecionado].min == 1) {
+            setQuantidadeIngredienteSelecionado(1)
+        }
+
     }
 
     function getSelectButton(ativo) {
@@ -51,72 +102,118 @@ export default props => {
         }
     }
 
-    return ingredientes.map((ingrediente, index) => {
+    function rowIngrediente(ingre, indexIngrediente) {
+        return ingre.map((ingredi, index) => {
+            return (
+                <TouchableOpacity
+                    style={styles.rowAdicional}
+                    onPress={() => selecionou(index, indexIngrediente, ingredi.ativo)}
+                    key={ingredi.id}>
 
-        return (
+                    <View style={{ flexDirection: 'column', marginBottom: 10 }}>
+                        <Text style={styles.tituloIngrediente}>{ingredi.titulo}</Text>
+                        <Text style={styles.valorIngrediente}>+ R$ {ingredi.valor}</Text>
+                    </View>
 
-            <TouchableOpacity
-                style={styles.rowAdicional}
-                onPress={() => selecionou(index)}
-                key={ingrediente.id}>
+                    <View style={styles.done}>
+                        {getSelectButton(ingredi.ativo)}
+                    </View>
 
-                <View style={{ flexDirection: 'column' }}>
-                    <Text style={styles.tituloIngrediente}>{ingrediente.titulo}</Text>
-                    <Text style={styles.valorIngrediente}>+ R$ {ingrediente.valor}</Text>
+                </TouchableOpacity>
+            )
+        })
+
+    }
+
+    function quantidadeProdutoCarrinho(tipo) {
+        switch (tipo) {
+            case 'adicionar':
+                setQuantidadeProduto(quantidadeProduto + 1)
+                break
+            case 'subtrair':
+                if (quantidadeProduto > 0) {
+                    setQuantidadeProduto(quantidadeProduto - 1)
+                }
+                break
+
+        }
+
+    }
+
+    function viewIngrediente() {
+        return ingredientes.map((ingrediente, index) => {
+
+            return (
+                <View key={index}>
+                    <View style={styles.tarjaIngredientes}>
+
+                        <View>
+                            <Text style={styles.tituloTarja}>{ingrediente.titulo}</Text>
+                            <Text style={styles.quantidadeIngredienteObrigatorios}>
+                                <Text style={styles.quantidadeIngredientes}>{quantidadeIngredienteSelecionado}</Text>
+                                <Text> de </Text>
+                                <Text style={styles.quantidadeIngredientes}>{ingrediente.max}</Text>
+
+                            </Text>
+                        </View>
+
+                        {ingrediente.obrigatorio &&
+                            <View style={styles.sinalizadorObrigatorio}>
+                                <Text style={styles.textSinalizadorObrigatorio}>OBRIGATÓRIO</Text>
+                            </View>
+                        }
+
+
+                    </View>
+                    {rowIngrediente(ingrediente.opcoes, index)}
+
                 </View>
 
-                <View style={styles.done}>
-                    {getSelectButton(ingrediente.ativo)}
+
+            )
+        })
+    }
+    return (
+        <View>
+            {viewIngrediente()}
+
+            <View style={styles.containerBotoes}>
+                <View style={styles.botaoQuantidade}>
+                    <TouchableOpacity onPress={() => quantidadeProdutoCarrinho('subtrair')}>
+                        <Feather name="minus" size={17} />
+                    </TouchableOpacity>
+
+                    <Text style={styles.quantidadeProdutos}>{quantidadeProduto}</Text>
+
+                    <TouchableOpacity onPress={() => quantidadeProdutoCarrinho('adicionar')}>
+                        <Feather name="plus" size={17} />
+                    </TouchableOpacity>
                 </View>
 
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.botaoAdicionarNoCarrinho}
+                    onPress={() => props.adicionarCarrinho && props.adicionarCarrinho(ingredientes)}>
+                    <Text style={styles.textAdicionarNoCarrinho}>Adicionar</Text>
+                    <Text style={styles.textAdicionarNoCarrinho}>{Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    }).format(valorTotalProduto)}</Text>
+                </TouchableOpacity>
 
-        )
-    })
+                <View>
 
-    // return (
+                </View>
+            </View>
 
-    //     <View>
-    //         <TouchableOpacity
-    //             style={styles.rowAdicional}
-    //             onPress={() => selecionou(0)}
-    //             key={1}>
+        </View>
+    )
 
-    //             <View style={{ flexDirection: 'column' }}>
-    //                 <Text style={styles.tituloIngrediente}>Teste</Text>
-    //                 <Text style={styles.valorIngrediente}>+ R$ 10</Text>
-    //             </View>
-
-    //             <View style={styles.done}>
-    //                 {getSelectButton(ingredientes[0].ativo)}
-    //             </View>
-
-    //         </TouchableOpacity>
-
-    //         <TouchableOpacity
-    //             style={styles.rowAdicional}
-    //             onPress={() => selecionou(1)}
-    //             key={2}>
-
-    //             <View style={{ flexDirection: 'column' }}>
-    //                 <Text style={styles.tituloIngrediente}>Teste</Text>
-    //                 <Text style={styles.valorIngrediente}>+ R$ 10</Text>
-    //             </View>
-
-    //             <View style={styles.done}>
-    //             {getSelectButton(ingredientes[1].ativo)}
-    //             </View>
-
-    //         </TouchableOpacity>
-    //     </View>
-
-    // )
 }
 
 
 
 const styles = StyleSheet.create({
     done: {
+        marginBottom: 10,
         height: 25,
         width: 25,
         borderRadius: 13,
@@ -137,9 +234,13 @@ const styles = StyleSheet.create({
         marginTop: 10,
         height: 50,
         flexDirection: 'row',
-        paddingHorizontal: 15,
+        //paddingHorizontal: 15,
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderBottomWidth: 0.3,
+        marginRight: 15,
+        marginLeft: 15
+
     },
     tituloIngrediente: {
         fontSize: 20,
@@ -149,4 +250,73 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '200'
     },
+    tarjaIngredientes: {
+        marginTop: 10,
+        height: 50,
+        backgroundColor: '#f0f1f3',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+    },
+    sinalizadorObrigatorio: {
+        backgroundColor: '#2B343D',
+        width: 110,
+        height: 20,
+        padding: 1,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    tituloTarja: {
+        fontSize: 20,
+        fontWeight: '400'
+
+    },
+    quantidadeIngredienteObrigatorios: {
+        fontSize: 15,
+        fontWeight: '300',
+    },
+    quantidadeIngredientes: {
+        fontWeight: '500',
+
+    },
+    textSinalizadorObrigatorio: {
+        fontWeight: 'bold',
+        color: '#ffffff'
+    },
+    containerBotoes: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+        marginTop: 15,
+        marginBottom: 15,
+    },
+    botaoQuantidade: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderWidth: 0.3,
+        borderRadius: 3,
+        padding: 10,
+        marginRight: '5%',
+        flex: 1
+
+    },
+    botaoAdicionarNoCarrinho: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderRadius: 3,
+        backgroundColor: '#B6382D',
+        padding: 10,
+        flex: 2
+    },
+    textAdicionarNoCarrinho: {
+        color: '#fff',
+        fontSize: 17,
+        fontWeight: '600',
+
+    },
+    quantidadeProdutos: {
+        fontSize: 17
+    }
 })
