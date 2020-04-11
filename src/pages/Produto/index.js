@@ -7,13 +7,15 @@ import styles from './styles'
 import lancheImg from '../../assets/imgs-em-alta/burger.png'
 import { ScrollView } from 'react-native-gesture-handler'
 
-import RadioButtom from '../../components/RadioButtom'
+import SelecaoDetalhesProduto from '../../components/SelecaoDetalhesProduto'
 
 export default function Produto() {
 
     const navigation = useNavigation()
     
-    let dados = [
+    let dados = {
+        valorBase: 25.90,
+        ingredientes:[
         {
             titulo: 'Escolha o hambúrguer',
             min: 1,
@@ -58,7 +60,7 @@ export default function Produto() {
             ]
 
         }
-    ]
+    ]}
 
     let [estado, setEstado] = useState(dados)
 
@@ -68,6 +70,7 @@ export default function Produto() {
 
     adicionar = dados => {
         console.log(dados)
+        navigateBack()
     }
 
     return (
@@ -100,7 +103,7 @@ export default function Produto() {
                     </View>
                 </View>
 
-                <RadioButtom {...estado}  adicionarCarrinho={adicionar}/>
+                <SelecaoDetalhesProduto dados={estado} adicionarCarrinho={adicionar}/>
                 
             </ScrollView>
         </View>

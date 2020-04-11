@@ -4,67 +4,14 @@ import { Feather } from '@expo/vector-icons'
 
 export default props => {
 
-
-    let ingredientesAdicionais = [
-        
-        {
-            titulo: 'Escolha o hambúrguer',
-            min: 1,
-            max: 1,
-            obrigatorio: true,
-            opcoes: [
-                {
-                    id: 1,
-                    titulo: '100 gramas',
-                    valor: 12,
-                    ativo: false,
-                },
-                {
-                    id: 2,
-                    titulo: '200 gramas',
-                    valor: 15,
-                    ativo: false,
-                }
-
-            ]
-
-        },
-        {
-            titulo: 'Extras',
-            min: 0,
-            max: 2,
-            obrigatorio: false,
-            opcoes: [
-                {
-                    id: 1,
-                    titulo: 'Ovo frito',
-                    valor: 1.50,
-                    ativo: false,
-                },
-                {
-                    id: 2,
-                    titulo: 'Queijo',
-                    valor: 2,
-                    ativo: false,
-                }
-
-            ]
-
-        }
-    ]
-
-    let valorBase = 25.90
     let [ativo, setAtivo] = useState(false)
-    let [ingredientes, setIngredientes] = useState(ingredientesAdicionais)
-    let [testeingredientes, settesteingredientes] = useState(props)
+    let [ingredientes, setIngredientes] = useState(props.dados.ingredientes)
     let [quantidadeIngredienteSelecionado, setQuantidadeIngredienteSelecionado] = useState(0)
-    let [quantidadeProduto, setQuantidadeProduto] = useState(0)
-    let [valorTotalProduto, setValorTotalProduto] = useState(valorBase)
+    let [quantidadeProduto, setQuantidadeProduto] = useState(1)
+    let [valorTotalProduto, setValorTotalProduto] = useState(props.dados.valorBase)
 
 
     function selecionou(indexOpcaoSelecionada, indexIngredienteSelecionado, isActive) {
-
-        console.log(testeingredientes)
 
         let cloneState = ingredientes
 
@@ -74,7 +21,6 @@ export default props => {
             } else {
                 if (isActive) {
                     cloneState[indexIngredienteSelecionado].opcoes[c].ativo = false;
-
 
                 } else {
                     cloneState[indexIngredienteSelecionado].opcoes[c].ativo = true;
@@ -126,21 +72,29 @@ export default props => {
     }
 
     function quantidadeProdutoCarrinho(tipo) {
+        
+        let quantidade = quantidadeProduto;
+
         switch (tipo) {
             case 'adicionar':
-                setQuantidadeProduto(quantidadeProduto + 1)
+                quantidade = quantidadeProduto + 1
+                setQuantidadeProduto(quantidade)
                 break
             case 'subtrair':
-                if (quantidadeProduto > 0) {
-                    setQuantidadeProduto(quantidadeProduto - 1)
+                if (quantidadeProduto > 1 ) {
+                    console.log('caiu aqui')
+                    quantidade = quantidadeProduto - 1
+                setQuantidadeProduto(quantidade)
                 }
                 break
-
         }
+
+        setValorTotalProduto(props.dados.valorBase * quantidade)
 
     }
 
     function viewIngrediente() {
+        
         return ingredientes.map((ingrediente, index) => {
 
             return (
@@ -163,12 +117,11 @@ export default props => {
                             </View>
                         }
 
-
                     </View>
+
                     {rowIngrediente(ingrediente.opcoes, index)}
 
                 </View>
-
 
             )
         })
