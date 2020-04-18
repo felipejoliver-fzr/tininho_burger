@@ -198,9 +198,6 @@ export default props => {
                     }).format(valorTotalProduto)}</Text>
                 </TouchableOpacity>
 
-                <View>
-
-                </View>
             </View>
 
         </View>
