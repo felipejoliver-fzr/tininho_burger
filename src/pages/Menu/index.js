@@ -27,10 +27,35 @@ import { useFonts } from '@use-expo/font'
 
 export default function Menu() {
 
+    const prods = [{
+        id: 1,
+        titulo: 'Cheeseburger',
+        descricao: 'Pão, hambúguer 100g, queijo e maionese da casa',
+        valorBase: 25.9 
+    },
+    {
+        id: 2,
+        titulo: 'Cheeseburger Salad',
+        descricao: 'Pão, hambúguer 100g, queijo, tomate, alface e maionese da casa',
+        valorBase: 25.9 
+    },
+    {
+        id: 3,
+        titulo: 'Cheeseburger Bacon',
+        descricao: 'Pão, hambúguer 100g, queijo, bacon e maionese da casa',
+        valorBase: 25.9 
+    },
+    {
+        id: 4,
+        titulo: 'Cheeseburger Egg',
+        descricao: 'Pão, hambúguer 100g, queijo, ovo frito e maionese da casa',
+        valorBase: 25.9 
+    }]
+
     const [produtos, setProdutos] = useState([])
     const [loading, setLoading] = useState(false)
-
     const navigation = useNavigation()
+
 
     async function loadProdutos() {
 
@@ -40,8 +65,9 @@ export default function Menu() {
 
         setLoading(true)
         
-        const response = await api.get('menu')
-        setProdutos([...produtos, ...response.data])
+        setProdutos([...produtos, ...prods])
+        // const response = await api.get('menu')
+        // setProdutos([...produtos, ...response.data])
 
     }
 

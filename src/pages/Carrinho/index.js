@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, Component, useEffect } from 'react'
 
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import lancheImg from '../../assets/hamburguer.jpg'
 import styles from './styles'
 
 import { Entypo } from '@expo/vector-icons'
 
-export default function Carrinho() {
+export default function Carrinho()  {
 
     const carrinho = [
         {
@@ -59,18 +60,26 @@ export default function Carrinho() {
     ]
 
     const [dadosCarrinho, setDadosCarrinho] = useState(carrinho)
+    let [subTotal, setSubTotal] = useState(0)
+    const navigation = useNavigation()
 
-    function editarProdutoCarrinho(produto) {
-        console.log('editar produto carrinho')
+    function navigateToDetailProduct(produto) {
+
+        navigation.navigate('DetailsProduct', { produto })
+
     }
 
-    function showProdutosCarrinho() {
-        return dadosCarrinho.map((produto, index) => {
+    function navigateToFinalizarCompra() {
+        navigation.navigate('FinalizarPedido')
+    }
+
+    function showProdutosCarrinho(produto) {
+        
             return (
                 <TouchableOpacity
                     style={styles.rowProdutoCarrinho}
                     key={produto.idProduto}
-                    onPress={() => editarProdutoCarrinho(produto)}
+                    onPress={() => navigateToDetailProduct(produto)}
                 >
                     <Image style={styles.imgProduto} source={lancheImg} />
                     <View style={styles.detalhesProduto}>
@@ -104,8 +113,23 @@ export default function Carrinho() {
                 </TouchableOpacity>
             )
 
-        })
+        
     }
+
+    function calcularSubTotal(){
+        
+        let subTotal = 0;
+
+        for(let c = 0; c < dadosCarrinho.length; c++){
+            subTotal = dadosCarrinho[c].valorTotal + subTotal
+        }
+        
+        setSubTotal(subTotal)
+    }
+
+    useEffect(() => {
+        calcularSubTotal()
+      });
 
     return (
         <View style={styles.container}>
@@ -115,9 +139,10 @@ export default function Carrinho() {
                         <Text style={styles.titleHeader}>MEU CARRINHO</Text>
                     </View>
                 </View>
-                
+
                 <View style={styles.containerLista}>
-                    {showProdutosCarrinho()}
+                    <FlatList data={dadosCarrinho} keyExtractor={item => `${item.idProduto}`}
+                        renderItem={({item}) => showProdutosCarrinho(item)}/>
                 </View>
             </View>
 
@@ -127,11 +152,12 @@ export default function Carrinho() {
                 Subtotal: {Intl.NumberFormat('pt-BR', {
                             style: 'currency',
                             currency: 'BRL'
-                        }).format('1')}
+                        }).format(subTotal)}
             </Text>
                 
                         
-                <TouchableOpacity style={styles.buttonContinuar}>
+                <TouchableOpacity style={styles.buttonContinuar}
+                    onPress={() => navigateToFinalizarCompra()}>
 
                     <Text style={styles.labelButton}>Continuar</Text>
 

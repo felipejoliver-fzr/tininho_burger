@@ -22,6 +22,7 @@ export default StyleSheet.create({
         color: '#47525e'
     },
     containerLista: {
+        flex: 1,
         paddingHorizontal: 15,
     },
     rowProdutoCarrinho: {
@@ -63,6 +64,7 @@ export default StyleSheet.create({
         flex: 1, 
         maxHeight: 60,
         borderTopWidth: 0.5,
+        borderTopColor: '#999',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
