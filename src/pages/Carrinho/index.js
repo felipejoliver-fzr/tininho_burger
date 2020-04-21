@@ -6,62 +6,25 @@ import { useNavigation } from '@react-navigation/native'
 import lancheImg from '../../assets/hamburguer.jpg'
 import styles from './styles'
 
+import { useFocusEffect } from '@react-navigation/native';
+
+import { connect } from 'react-redux'
+
 import { Entypo } from '@expo/vector-icons'
 
-export default function Carrinho()  {
+const Carrinho = ({ produtosCarrinho }) => {
 
-    const carrinho = [
-        {
-            idProduto: 1,
-            quantidade: 1,
-            valorTotal: 26.90,
-            descricaoProduto: 'Cheeseburguer',
-            ingredientesSelecionados: [
-                {
-                    idIngrediente: 1,
-                    extra: false,
-                    descricao: 'Hamburguer 100 gramas'
-                },
-                {
-                    idIngrediente: 2,
-                    extra: true,
-                    descricao: 'Queijo'
-                }
-            ]
-
-        },
-        {
-            idProduto: 2,
-            quantidade: 1,
-            valorTotal: 27.90,
-            descricaoProduto: 'Salad burguer',
-            ingredientesSelecionados: [
-                {
-                    idIngrediente: 1,
-                    extra: false,
-                    descricao: 'Hamburguer 100 gramas'
-                }
-            ]
-
-        }, {
-            idProduto: 3,
-            quantidade: 1,
-            valorTotal: 30.90,
-            descricaoProduto: 'Bacon burguer',
-            ingredientesSelecionados: [
-                {
-                    idIngrediente: 1,
-                    extra: false,
-                    descricao: 'Hamburguer 100 gramas'
-                }
-            ]
-
-        },
-    ]
-
-    const [dadosCarrinho, setDadosCarrinho] = useState(carrinho)
+    const [dadosCarrinho, setDadosCarrinho] = useState(produtosCarrinho)
     let [subTotal, setSubTotal] = useState(0)
     const navigation = useNavigation()
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setDadosCarrinho(produtosCarrinho)
+            calcularSubTotal()
+        }, [])
+    )
 
     function navigateToDetailProduct(produto) {
 
@@ -74,95 +37,109 @@ export default function Carrinho()  {
     }
 
     function showProdutosCarrinho(produto) {
-        
-            return (
-                <TouchableOpacity
-                    style={styles.rowProdutoCarrinho}
-                    key={produto.idProduto}
-                    onPress={() => navigateToDetailProduct(produto)}
-                >
-                    <Image style={styles.imgProduto} source={lancheImg} />
-                    <View style={styles.detalhesProduto}>
-                        <View styles={styles.containerTituloProduto}>
-                            <Text style={styles.tituloProduto}>{produto.descricaoProduto}</Text>
-                        </View>
-                        {produto.ingredientesSelecionados.map((descricao, index) => {
-                            return (
-                                <View key={index} style={styles.containerDescricaoIngredientes}>
 
-                                    <Text style={styles.descricaoIngrediente}>
-                                        {descricao.descricao}
-                                        {descricao.extra &&
-                                            <Text> (extra)</Text>
-                                        }
-                                    </Text>
+        return (
+            <TouchableOpacity
+                style={styles.rowProdutoCarrinho}
+                key={produto.idProduto}
+                onPress={() => navigateToDetailProduct(produto)}
+            >
+                <Image style={styles.imgProduto} source={lancheImg} />
+                <View style={styles.detalhesProduto}>
+                    <View styles={styles.containerTituloProduto}>
+                        <Text style={styles.tituloProduto}>{produto.descricaoProduto}</Text>
+                    </View>
+                    {produto.ingredientesSelecionados.map((descricao, index) => {
+                        return (
+                            <View key={index} style={styles.containerDescricaoIngredientes}>
 
-                                </View>
+                                <Text style={styles.descricaoIngrediente}>
+                                    {descricao.descricao}
+                                    {descricao.extra &&
+                                        <Text> (extra)</Text>
+                                    }
+                                </Text>
 
-                            )
-                        })}
-                        <View style={styles.labelPreco}>
-                            <Text>{Intl.NumberFormat('pt-BR', {
-                                style: 'currency',
-                                currency: 'BRL'
-                            }).format(produto.valorTotal)}</Text>
-                        </View>
+                            </View>
 
+                        )
+                    })}
+                    <View style={styles.labelPreco}>
+                        <Text>{Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }).format(produto.valorTotal)}</Text>
                     </View>
 
-                </TouchableOpacity>
-            )
+                </View>
 
-        
+            </TouchableOpacity>
+        )
+
+
     }
 
-    function calcularSubTotal(){
-        
+    function calcularSubTotal() {
+
         let subTotal = 0;
 
-        for(let c = 0; c < dadosCarrinho.length; c++){
+        for (let c = 0; c < dadosCarrinho.length; c++) {
             subTotal = dadosCarrinho[c].valorTotal + subTotal
         }
-        
+
         setSubTotal(subTotal)
     }
 
-    useEffect(() => {
-        calcularSubTotal()
-      });
-
     return (
         <View style={styles.container}>
+
             <View style={{ flex: 1 }}>
                 <View style={styles.headerContainer}>
                     <View style={styles.header}>
                         <Text style={styles.titleHeader}>MEU CARRINHO</Text>
                     </View>
                 </View>
+                {dadosCarrinho.length !== 0 &&
+                    <View style={styles.containerLista}>
+                        <FlatList data={dadosCarrinho} keyExtractor={item => `${item.idProduto}`}
+                            renderItem={({ item }) => showProdutosCarrinho(item)} />
+                    </View>
+                }
 
-                <View style={styles.containerLista}>
-                    <FlatList data={dadosCarrinho} keyExtractor={item => `${item.idProduto}`}
-                        renderItem={({item}) => showProdutosCarrinho(item)}/>
+
+                {dadosCarrinho.length === 0 &&
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text>O carrinho está vazio!</Text>
+                    </View>
+                }
+
+
+            </View>
+
+
+            {dadosCarrinho.length !== 0 &&
+                <View style={styles.containerInferior}>
+                    <Text style={styles.labelSubTotal}>
+                        Subtotal: {Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    }).format(subTotal)}
+                    </Text>
+
+
+                    <TouchableOpacity style={styles.buttonContinuar}
+                        onPress={() => navigateToFinalizarCompra()}>
+
+                        <Text style={styles.labelButton}>Continuar</Text>
+
+                    </TouchableOpacity>
                 </View>
-            </View>
+            }
 
 
-            <View style={styles.containerInferior}>
-            <Text style={styles.labelSubTotal}>
-                Subtotal: {Intl.NumberFormat('pt-BR', {
-                            style: 'currency',
-                            currency: 'BRL'
-                        }).format(subTotal)}
-            </Text>
-                
-                        
-                <TouchableOpacity style={styles.buttonContinuar}
-                    onPress={() => navigateToFinalizarCompra()}>
 
-                    <Text style={styles.labelButton}>Continuar</Text>
-
-                </TouchableOpacity>
-            </View>
         </View>
     )
 }
+
+export default connect(state => ({ produtosCarrinho: state.carrinhoCompra.dadosCarrinho }))(Carrinho)

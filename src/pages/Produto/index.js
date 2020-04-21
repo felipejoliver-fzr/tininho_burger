@@ -8,11 +8,18 @@ import lancheImg from '../../assets/imgs-em-alta/burger.png'
 import { ScrollView } from 'react-native-gesture-handler'
 
 import SelecaoDetalhesProduto from '../../components/SelecaoDetalhesProduto'
+import { connect } from 'react-redux'
 
-export default function Produto() {
+import * as CarrinhoCompraActions from '../../store/actions/carrinhoCompra'
+
+const Produto = ({testeRedux, dispatch}) => {
 
     const navigation = useNavigation()
+    const route = useRoute()
     
+    const dadosProdutoSelecionado = route.params.produto
+    console.log(dadosProdutoSelecionado)
+
     let dados = {
         valorBase: 25.90,
         ingredientes:[
@@ -71,7 +78,9 @@ export default function Produto() {
     }
 
     adicionar = dados => {
-        console.log(dados)
+        //console.log(testeRedux.testeRedux)
+        
+        dispatch(CarrinhoCompraActions.adicionarProdutoCarrinho(dados))
         navigateBack()
     }
 
@@ -114,3 +123,4 @@ export default function Produto() {
     )
 }
 
+export default connect(state => ({ testeRedux: state.carrinhoCompra}))(Produto)

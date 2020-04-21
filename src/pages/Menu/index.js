@@ -10,9 +10,12 @@ import {
     Dimensions,
     TextInput
 } from 'react-native'
+import { connect } from 'react-redux'
+
 import { useNavigation } from '@react-navigation/native'
 
 import { Entypo } from '@expo/vector-icons'
+
 
 import api from '../../services/api'
 
@@ -25,37 +28,11 @@ import styles from './styles'
 
 import { useFonts } from '@use-expo/font'
 
-export default function Menu() {
-
-    const prods = [{
-        id: 1,
-        titulo: 'Cheeseburger',
-        descricao: 'Pão, hambúguer 100g, queijo e maionese da casa',
-        valorBase: 25.9 
-    },
-    {
-        id: 2,
-        titulo: 'Cheeseburger Salad',
-        descricao: 'Pão, hambúguer 100g, queijo, tomate, alface e maionese da casa',
-        valorBase: 25.9 
-    },
-    {
-        id: 3,
-        titulo: 'Cheeseburger Bacon',
-        descricao: 'Pão, hambúguer 100g, queijo, bacon e maionese da casa',
-        valorBase: 25.9 
-    },
-    {
-        id: 4,
-        titulo: 'Cheeseburger Egg',
-        descricao: 'Pão, hambúguer 100g, queijo, ovo frito e maionese da casa',
-        valorBase: 25.9 
-    }]
+const Menu = ({ testeRedux }) => {
 
     const [produtos, setProdutos] = useState([])
     const [loading, setLoading] = useState(false)
     const navigation = useNavigation()
-
 
     async function loadProdutos() {
 
@@ -65,14 +42,13 @@ export default function Menu() {
 
         setLoading(true)
         
-        setProdutos([...produtos, ...prods])
-        // const response = await api.get('menu')
-        // setProdutos([...produtos, ...response.data])
+        const response = await api.get('menu')
+        setProdutos([...produtos, ...response.data])
 
     }
 
     function navigateToDetailProduct(produto) {
-        console.log(produto)
+
         navigation.navigate('DetailsProduct', { produto })
 
     }
@@ -181,285 +157,8 @@ export default function Menu() {
                         <Text style={styles.tituloListaProdutos}>Carnes Bovínas</Text>
 
                         {showProdutos()}
-                        {/* <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={1}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={2}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={3}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={4}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={5}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={6}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={7}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={8}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={9}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.rowProduto}
-                            key={10}
-                            onPress={() => navigateToDetailProduct()}
-                        >
-                            <Image style={styles.imgProduto} source={lancheImg} />
-                            <View style={styles.detalhesProduto}>
-                                <View style={styles.containerTituloProduto}>
-                                    <Text style={styles.tituloProduto}>
-                                    Cheeseburger
-
-                                    </Text>
-                                    <Text style={styles.avaliacaoProduto}>
-                                        <Entypo name='star' size={20} color="#fcaf17" />
-                                    4,9
-                                </Text>
-                                </View>
-
-                                <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
-                                <Text>{Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(100)}</Text>
-
-                            </View>
-                        </TouchableOpacity> */}
-
+                        
                     </View>
-
-                    {/* <View>
-
-                        <Text style={styles.tituloListaProdutos}>Vegetarianos</Text>
-
-                        {showProdutos()}
-
-                    </View> */}
 
                 </View>
             </ScrollView>
@@ -468,3 +167,5 @@ export default function Menu() {
 
     )
 }
+
+export default connect(state => ({ testeRedux: state.carrinhoCompra }))(Menu)

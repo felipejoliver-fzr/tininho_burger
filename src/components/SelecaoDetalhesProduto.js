@@ -9,6 +9,25 @@ export default props => {
     let [quantidadeProduto, setQuantidadeProduto] = useState(1)
     let [valorTotalProduto, setValorTotalProduto] = useState(props.dados.valorBase)
 
+    let produtoASerAdicionadoNoCarrinho = {
+        idProduto: Math.random(),
+            quantidade: 1,
+            valorTotal: 26.90,
+            descricaoProduto: 'Cheeseburguer',
+            ingredientesSelecionados: [
+                {
+                    idIngrediente: 1,
+                    extra: false,
+                    descricao: 'Hamburguer 100 gramas'
+                },
+                {
+                    idIngrediente: 2,
+                    extra: true,
+                    descricao: 'Queijo'
+                }
+            ]
+    }
+
     function setaProdutoEscolhaUnica(cloneState, indexOpcaoSelecionada, indexIngredienteSelecionado) {
 
         for (let c = 0; c < cloneState[indexIngredienteSelecionado].opcoes.length; c++) {
@@ -172,6 +191,7 @@ export default props => {
             )
         })
     }
+
     return (
         <View>
             {viewIngrediente()}
@@ -190,7 +210,7 @@ export default props => {
                 </View>
 
                 <TouchableOpacity style={styles.botaoAdicionarNoCarrinho}
-                    onPress={() => props.adicionarCarrinho && props.adicionarCarrinho(ingredientes)}>
+                    onPress={() => props.adicionarCarrinho && props.adicionarCarrinho(produtoASerAdicionadoNoCarrinho)}>
                     <Text style={styles.textAdicionarNoCarrinho}>Adicionar</Text>
                     <Text style={styles.textAdicionarNoCarrinho}>{Intl.NumberFormat('pt-BR', {
                         style: 'currency',
