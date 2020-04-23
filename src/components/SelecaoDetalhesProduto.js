@@ -9,24 +9,7 @@ export default props => {
     let [quantidadeProduto, setQuantidadeProduto] = useState(1)
     let [valorTotalProduto, setValorTotalProduto] = useState(props.dados.valorBase)
 
-    let produtoASerAdicionadoNoCarrinho = {
-        idProduto: Math.random(),
-            quantidade: 1,
-            valorTotal: 26.90,
-            descricaoProduto: 'Cheeseburguer',
-            ingredientesSelecionados: [
-                {
-                    idIngrediente: 1,
-                    extra: false,
-                    descricao: 'Hamburguer 100 gramas'
-                },
-                {
-                    idIngrediente: 2,
-                    extra: true,
-                    descricao: 'Queijo'
-                }
-            ]
-    }
+    console.log(props.dados,'dados prop')
 
     function setaProdutoEscolhaUnica(cloneState, indexOpcaoSelecionada, indexIngredienteSelecionado) {
 
@@ -192,6 +175,40 @@ export default props => {
         })
     }
 
+    //essa funcao filtra os ingredientes selecionados para inserir no objeto para o carrinho
+    function filtrarIngredientesExtrasSelecionados(){
+        let ingredientesSelecionados = []
+
+        for(let c = 0; c < ingredientes.length; c++){
+            for(let z = 0; z < ingredientes[c].opcoes.length; z++){
+                if(ingredientes[c].opcoes[z].ativo){
+
+                    let ingredienteSelecionado = {
+                        idIngrediente: ingredientes[c].opcoes[z].id,
+                        extra: !ingredientes[c].obrigatorio, //se for obrigatorio se torna um ingrediente não extra, se nao for obrigatorio se torna extra
+                        descricao: ingredientes[c].opcoes[z].titulo
+                    }
+                    ingredientesSelecionados.push(ingredienteSelecionado)
+
+                }
+            }
+            
+        }
+
+        return ingredientesSelecionados
+    }
+
+    function montarDadosProdutoAdicionado(){
+
+        return {
+            idProduto: props.dados.id,
+            quantidade: quantidadeProduto,
+            valorTotal: valorTotalProduto,
+            descricaoProduto: props.dados.titulo,
+            ingredientesSelecionados: filtrarIngredientesExtrasSelecionados()
+        }
+    }
+
     return (
         <View>
             {viewIngrediente()}
@@ -210,7 +227,7 @@ export default props => {
                 </View>
 
                 <TouchableOpacity style={styles.botaoAdicionarNoCarrinho}
-                    onPress={() => props.adicionarCarrinho && props.adicionarCarrinho(produtoASerAdicionadoNoCarrinho)}>
+                    onPress={() => props.adicionarCarrinho && props.adicionarCarrinho(montarDadosProdutoAdicionado())}>
                     <Text style={styles.textAdicionarNoCarrinho}>Adicionar</Text>
                     <Text style={styles.textAdicionarNoCarrinho}>{Intl.NumberFormat('pt-BR', {
                         style: 'currency',

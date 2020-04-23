@@ -18,70 +18,18 @@ const Produto = ({testeRedux, dispatch}) => {
     const route = useRoute()
     
     const dadosProdutoSelecionado = route.params.produto
-    console.log(dadosProdutoSelecionado)
-
-    let dados = {
-        valorBase: 25.90,
-        ingredientes:[
-        {
-            titulo: 'Escolha o hambúrguer',
-            min: 1,
-            max: 1,
-            obrigatorio: true,
-            escolhaUnica: true,
-            opcoes: [
-                {
-                    id: 1,
-                    titulo: '100 gramas',
-                    valor: 0,
-                    ativo: true,
-                },
-                {
-                    id: 2,
-                    titulo: '200 gramas',
-                    valor: 7,
-                    ativo: false,
-                }
-
-            ]
-
-        },
-        {
-            titulo: 'Extras',
-            min: 0,
-            max: 2,
-            obrigatorio: false,
-            escolhaUnica: false,
-            opcoes: [
-                {
-                    id: 1,
-                    titulo: 'Ovo frito',
-                    valor: 1.50,
-                    ativo: false,
-                },
-                {
-                    id: 2,
-                    titulo: 'Queijo',
-                    valor: 2,
-                    ativo: false,
-                }
-
-            ]
-
-        }
-    ]}
-
-    let [estado, setEstado] = useState(dados)
+    
+    let [estado, setEstado] = useState(dadosProdutoSelecionado)
 
     function navigateBack() {
         navigation.goBack()
     }
 
     adicionar = dados => {
-        //console.log(testeRedux.testeRedux)
-        
+
         dispatch(CarrinhoCompraActions.adicionarProdutoCarrinho(dados))
         navigateBack()
+
     }
 
     return (
@@ -107,9 +55,9 @@ const Produto = ({testeRedux, dispatch}) => {
 
                     <View style={styles.containerDescricaoProduto}>
 
-                        <Text style={styles.tituloProduto}>Cheeseburger</Text>
+                        <Text style={styles.tituloProduto}>{estado.titulo}</Text>
 
-                        <Text style={styles.descricaoProduto}>Pão, hambúguer 100g, queijo e maionese da casa</Text>
+                        <Text style={styles.descricaoProduto}>{estado.descricao}</Text>
 
                     </View>
                 </View>

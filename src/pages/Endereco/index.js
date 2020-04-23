@@ -3,8 +3,8 @@ import { View, Text } from 'react-native'
 
 export default function Endereco(){
     return (
-        <View>
-            <Text>Tela de enderecos</Text>
-        </View>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                <Text style={{ fontSize: 30 }}>Tela Perfil</Text>
+                </View>
     )
 }

@@ -73,6 +73,8 @@ export default StyleSheet.create({
     }, 
 
     imgCategoria: {
+        width: 90,
+        height: 60,
         borderRadius: 8,
     },
 
@@ -109,6 +111,8 @@ export default StyleSheet.create({
     },
 
     imgProduto: {
+        width: 90,
+        height: 60,
         borderRadius: 8,
         marginBottom: 10
     },

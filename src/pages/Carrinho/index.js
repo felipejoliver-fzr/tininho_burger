@@ -47,7 +47,9 @@ const Carrinho = ({ produtosCarrinho }) => {
                 <Image style={styles.imgProduto} source={lancheImg} />
                 <View style={styles.detalhesProduto}>
                     <View styles={styles.containerTituloProduto}>
-                        <Text style={styles.tituloProduto}>{produto.descricaoProduto}</Text>
+                    <Text style={styles.tituloProduto}>
+                        {produto.quantidade}x {produto.descricaoProduto}
+                    </Text>
                     </View>
                     {produto.ingredientesSelecionados.map((descricao, index) => {
                         return (
@@ -65,6 +67,7 @@ const Carrinho = ({ produtosCarrinho }) => {
                         )
                     })}
                     <View style={styles.labelPreco}>
+                        
                         <Text>{Intl.NumberFormat('pt-BR', {
                             style: 'currency',
                             currency: 'BRL'

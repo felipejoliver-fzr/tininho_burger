@@ -1,5 +1,6 @@
 import React from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, Platform,
+  KeyboardAvoidingView } from 'react-native'
 import { MaterialCommunityIcons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -21,6 +22,8 @@ export default function Routes() {
 
   function Tabs() {
     return (
+      
+      
       <Tab.Navigator
         tabBarOptions={{
           labelStyle: { fontSize: 12, marginBottom: 5 },
