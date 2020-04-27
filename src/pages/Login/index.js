@@ -6,7 +6,8 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     TextInput,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    AsyncStorage
 } from 'react-native'
 import { Form } from '@unform/mobile'
 import * as Yup from 'yup'
@@ -16,8 +17,14 @@ import logo from '../../assets/imgs-em-alta/logo.png'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import axios from 'axios'
+import { server, showError, showSucess } from '../../common'
 
-const Login = () => {
+import * as loginActions from '../../store/actions/login'
+import { connect } from 'react-redux'
+
+
+const Login = ({dadosUsuarioAplicacao, dispatch}) => {
 
     const [novoCadastro, setNovoCadastro] = useState(false)
     const formRef = useRef(null)
@@ -36,12 +43,19 @@ const Login = () => {
         try {
 
             const schema = Yup.object().shape({
+                nome: novoCadastro 
+                ? Yup.string().required('O nome é obrigatório')
+                : '',
                 email: Yup.string()
                     .email('Digite um e-mail válido')
                     .required('O e-mail é obrigatório'),
                 senha: Yup.string()
-                    .required('A senha é obrigatória')
-                    
+                    .required('A senha é obrigatória'),
+                confirmarSenha: novoCadastro 
+                ? Yup.string()
+                .required('A confirmação de senha é obrigatória')
+                .oneOf([Yup.ref('senha'), null], 'As senhas são diferentes')
+                : ''
             })
 
             await schema.validate(data, {
@@ -51,27 +65,70 @@ const Login = () => {
             })
 
             //se o validador estiver ok, irá executar as linhas abaixo
-
             //limpa os erros
             formRef.current.setErrors({})
+
+            if (novoCadastro) {
+                signup(data)
+            } else {
+                signin(data)
+            }
 
             //limpa o form
             //reset()
 
 
-            
+
         } catch (err) {
-            if(err instanceof Yup.ValidationError) {
-                console.log('caiu aqui')
+            if (err instanceof Yup.ValidationError) {
                 //se cair aqui dentro, quer dizer que o erro foi de validação
                 const errorMessages = {}
 
                 err.inner.forEach(error => {
                     errorMessages[error.path] = error.message
                 })
-                console.log(errorMessages)
+
                 formRef.current.setErrors(errorMessages)
             }
+        }
+    }
+
+    async function signup(dados) {
+        try {
+
+            await axios.post(`${server}/signup`, {
+                nome: dados.nome,
+                email: dados.email,
+                senha: dados.senha
+            }).then(response => {
+                if(response.status === 204){
+                    showSucess('Usuário cadastrado!')
+                    setNovoCadastro(false)
+                }
+            })
+
+        } catch (e) {
+           showError(e)
+        }
+    }
+
+    async function signin (dados) {
+        try {
+
+            
+            const res = await axios.post(`${server}/signin`, {
+                email: dados.email,
+                senha: dados.senha
+            })
+
+
+            AsyncStorage.setItem('userData', JSON.stringify(res.data))
+            axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
+
+            dispatch(loginActions.login(res.data))
+
+        } catch (e) {
+            showError(e)
         }
     }
 
@@ -91,6 +148,13 @@ const Login = () => {
                         <Text style={[styles.label, styles.titulo]}>Vamos começar!</Text>
 
                         <Form ref={formRef} onSubmit={handleSubmit}>
+                            {novoCadastro &&
+                                <Input icon='user'
+                                    name='nome'
+                                    placeholder='Digite seu nome'
+                                    style={styles.input}
+                                />
+                            }
                             <Input icon='at'
                                 name='email'
                                 placeholder='E-mail'
@@ -103,18 +167,19 @@ const Login = () => {
                                 style={styles.input}
                                 secureTextEntry={true}
                             />
+
+                            {novoCadastro &&
+                                <Input icon='lock'
+                                    name='confirmarSenha'
+                                    placeholder='Confirmar senha'
+                                    style={styles.input}
+                                    secureTextEntry={true}
+                                />
+                            }
                         </Form>
 
 
-                        {/* 
-                        {novoCadastro &&
-                            <Input icon='lock'
-                                name='confirmarSenha'
-                                placeholder='Confirmar senha'
-                                style={styles.input}
-                                secureTextEntry={true}
-                            />
-                        } */}
+
 
                     </View>
 
@@ -146,4 +211,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default connect(state => ({dadosUsuarioAplicacao: state.login}))(Login)

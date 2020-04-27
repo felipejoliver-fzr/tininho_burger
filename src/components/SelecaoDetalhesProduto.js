@@ -9,8 +9,6 @@ export default props => {
     let [quantidadeProduto, setQuantidadeProduto] = useState(1)
     let [valorTotalProduto, setValorTotalProduto] = useState(props.dados.valorBase)
 
-    console.log(props.dados,'dados prop')
-
     function setaProdutoEscolhaUnica(cloneState, indexOpcaoSelecionada, indexIngredienteSelecionado) {
 
         for (let c = 0; c < cloneState[indexIngredienteSelecionado].opcoes.length; c++) {

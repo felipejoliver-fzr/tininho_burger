@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
 import carrinhoCompra from './carrinhoCompra'
-import perfil from './perfil'
+import login from './login'
 
 export default combineReducers({
     carrinhoCompra,
-    perfil
+    login
 })

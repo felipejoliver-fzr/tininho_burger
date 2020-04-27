@@ -3,18 +3,18 @@ import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import Login from '../Login'
 
-const Perfil = ({ dadosPerfil }) => {
-    console.log(dadosPerfil, 'opa')
+const Perfil = ({ dadosUsuario }) => {
+    
     return (
 
         <View style={{flex: 1}}>
-            {dadosPerfil.logado &&
+            {dadosUsuario.dadosPerfil.logado &&
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <Text style={{ fontSize: 30 }}>Tela Perfil</Text>
                 </View>
             }
 
-            {!dadosPerfil.logado &&
+            {!dadosUsuario.dadosPerfil.logado &&
                <Login />
             }
 
@@ -24,4 +24,4 @@ const Perfil = ({ dadosPerfil }) => {
     )
 }
 
-export default connect(state => ({ dadosPerfil: state.perfil.dadosPerfil }))(Perfil)
+export default connect(state => ({ dadosUsuario: state.login }))(Perfil)
