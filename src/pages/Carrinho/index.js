@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native'
 import lancheImg from '../../assets/hamburguer.jpg'
 import styles from './styles'
 
+import Header from '../../components/Header'
+
 import { useFocusEffect } from '@react-navigation/native';
 
 import { connect } from 'react-redux'
@@ -47,9 +49,9 @@ const Carrinho = ({ produtosCarrinho }) => {
                 <Image style={styles.imgProduto} source={lancheImg} />
                 <View style={styles.detalhesProduto}>
                     <View styles={styles.containerTituloProduto}>
-                    <Text style={styles.tituloProduto}>
-                        {produto.quantidade}x {produto.descricaoProduto}
-                    </Text>
+                        <Text style={styles.tituloProduto}>
+                            {produto.quantidade}x {produto.descricaoProduto}
+                        </Text>
                     </View>
                     {produto.ingredientesSelecionados.map((descricao, index) => {
                         return (
@@ -67,7 +69,7 @@ const Carrinho = ({ produtosCarrinho }) => {
                         )
                     })}
                     <View style={styles.labelPreco}>
-                        
+
                         <Text>{Intl.NumberFormat('pt-BR', {
                             style: 'currency',
                             currency: 'BRL'
@@ -97,11 +99,7 @@ const Carrinho = ({ produtosCarrinho }) => {
         <View style={styles.container}>
 
             <View style={{ flex: 1 }}>
-                <View style={styles.headerContainer}>
-                    <View style={styles.header}>
-                        <Text style={styles.titleHeader}>MEU CARRINHO</Text>
-                    </View>
-                </View>
+                <Header titulo='MEU CARRINHO' />
                 {dadosCarrinho.length !== 0 &&
                     <View style={styles.containerLista}>
                         <FlatList data={dadosCarrinho} keyExtractor={item => `${item.idProduto}`}

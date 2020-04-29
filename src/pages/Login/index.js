@@ -17,7 +17,7 @@ import logo from '../../assets/imgs-em-alta/logo.png'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import axios from 'axios'
+import api from '../../services/api'
 import { server, showError, showSucess } from '../../common'
 
 import * as loginActions from '../../store/actions/login'
@@ -96,7 +96,7 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
     async function signup(dados) {
         try {
 
-            await axios.post(`${server}/signup`, {
+            await api.post(`${server}/signup`, {
                 nome: dados.nome,
                 email: dados.email,
                 senha: dados.senha
@@ -116,14 +116,14 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
         try {
 
             
-            const res = await axios.post(`${server}/signin`, {
+            const res = await api.post(`${server}/signin`, {
                 email: dados.email,
                 senha: dados.senha
             })
 
 
             AsyncStorage.setItem('userData', JSON.stringify(res.data))
-            axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
+            api.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
 
             dispatch(loginActions.login(res.data))
 

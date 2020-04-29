@@ -1,7 +1,7 @@
 import { Alert, Platform } from 'react-native'
 
 const server = Platform.OS === 'ios'
-    ? 'http://localhost:8888' : 'http://10.0.2.2:8888'
+    ? 'http://192.168.0.2:8888' : 'http://10.0.2.2:8888'
 
 function showError(err) {
     if(err.response && err.response.data){

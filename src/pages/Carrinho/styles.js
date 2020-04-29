@@ -6,21 +6,6 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: '#ffffff'
     },
-    headerContainer: {
-        paddingHorizontal: 10,
-        height: Constants.statusBarHeight + 45
-    },
-    header: {
-        flexDirection: 'row',
-        paddingTop: Constants.statusBarHeight,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    titleHeader: {
-        fontSize: 27,
-        fontWeight: '500',
-        color: '#47525e'
-    },
     containerLista: {
         flex: 1,
         paddingHorizontal: 15,

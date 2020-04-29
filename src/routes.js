@@ -13,7 +13,9 @@ import Carrinho from './pages/Carrinho'
 import Pedidos from './pages/Pedidos'
 import Perfil from './pages/Perfil'
 import FinalizarPedido from './pages/FinalizarPedido'
-import Endereco from './pages/Endereco'
+import MeusDados from './pages/Perfil/MeusDados'
+import MeusEnderecos from './pages/Perfil/MeusEnderecos'
+import Fidelidade from './pages/Perfil/Fidelidade'
 
 const Tab = createBottomTabNavigator();
 const windowHeight = Dimensions.get('window').height
@@ -80,7 +82,9 @@ export default function Routes() {
         <Stack.Screen name="Home" component={Tabs} />
         <Stack.Screen name="DetailsProduct" component={Produto} />
         <Stack.Screen name="FinalizarPedido" component={FinalizarPedido} />
-        <Stack.Screen name="Endereco" component={Endereco} />
+        <Stack.Screen name="MeusDados" component={MeusDados} />
+        <Stack.Screen name="MeusEnderecos" component={MeusEnderecos} />
+        <Stack.Screen name="Fidelidade" component={Fidelidade} />
       </Stack.Navigator>
     </NavigationContainer>
   );
