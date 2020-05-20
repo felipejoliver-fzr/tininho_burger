@@ -37,7 +37,7 @@ export default function FinalizarPedido() {
 
                     <Text style={styles.labelDescricaoProduto}>R$ 25,90</Text>
                 </View>
-                <View style={styles.containerRowItemPedido}>
+                {/* <View style={styles.containerRowItemPedido}>
                     <View style={{ flexDirection: 'column' }}>
                         <Text style={styles.labelDescricaoProduto}>1x Cheeseburger</Text>
 
@@ -47,19 +47,19 @@ export default function FinalizarPedido() {
                         </View>
                     </View>
 
-                    <Text style={styles.labelDescricaoProduto}>R$ 25,90</Text>
-                </View>
+                    <Text style={styles.labelDescricaoProduto}>R$ 21,90</Text>
+                </View> */}
                 <View style={styles.containerRowItemPedido}>
                     <View style={{ flexDirection: 'column' }}>
-                        <Text style={styles.labelDescricaoProduto}>1x Cheeseburger</Text>
+                        <Text style={styles.labelDescricaoProduto}>1x Cheeseburger Bacon</Text>
 
                         <View style={styles.containerExtrasSelecionados}>
                             <Entypo name="dot-single" size={20} />
-                            <Text style={styles.labelDescricaoProduto}>Queijo (extra)</Text>
+                            <Text style={styles.labelDescricaoProduto}>Ovo Frito (extra)</Text>
                         </View>
                     </View>
 
-                    <Text style={styles.labelDescricaoProduto}>R$ 25,90</Text>
+                    <Text style={styles.labelDescricaoProduto}>R$ 31,40</Text>
                 </View>
                 
             </View>
@@ -143,17 +143,17 @@ export default function FinalizarPedido() {
 
                     <View style={styles.descricaoValores}>
                         <Text style={styles.labelSub}>Subtotal:</Text>
-                        <Text style={styles.labelSub}>R$ 12,90</Text>
+                        <Text style={styles.labelSub}>R$ 57,30</Text>
                     </View>
 
                     <View style={styles.descricaoValores}>
                         <Text style={styles.labelSub}>Taxa de entrega:</Text>
-                        <Text style={styles.labelSub}>R$ 12,90</Text>
+                        <Text style={styles.labelSub}>R$ 10,00</Text>
                     </View>
 
                     <View style={styles.descricaoValores}>
                         <Text style={styles.labelTotal}>Total:</Text>
-                        <Text style={styles.labelTotal}>R$ 12,90</Text>
+                        <Text style={styles.labelTotal}>R$ 67,30</Text>
                     </View>
 
                 </View>

@@ -14,26 +14,34 @@ export default props => {
 
     return (
         <View style={styles.headerContainer}>
+            {props.showButtonReturn &&
             <View style={styles.header}>
-                {props.showButtonReturn &&
+                
                     <TouchableOpacity style={styles.arrowLeft} onPress={navigateBack}>
                         <Feather name="arrow-left" size={35} color="red" />
                     </TouchableOpacity>
-                }
-
-
+                
+                <Text style={[styles.titleHeader, styles.titleHeaderWithArrow]}>{props.titulo}</Text>
+            </View>
+            }
+            {!props.showButtonReturn &&
+            <View style={styles.header}>
+                
                 <Text style={styles.titleHeader}>{props.titulo}</Text>
             </View>
+            }
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     headerContainer: {
+        
         paddingHorizontal: 10,
         height: Constants.statusBarHeight + 45
     },
     header: {
+        flex:1,
         flexDirection: 'row',
         paddingTop: Constants.statusBarHeight,
         justifyContent: 'center',
@@ -43,9 +51,12 @@ const styles = StyleSheet.create({
         flex:1
     },
     titleHeader: {
-        flex: 2.5,
+        
         fontSize: 27,
         fontWeight: '500',
         color: '#47525e'
     },
+    titleHeaderWithArrow: {
+        flex: 2.5
+    }
 })

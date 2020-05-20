@@ -67,10 +67,11 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
             //se o validador estiver ok, irá executar as linhas abaixo
             //limpa os erros
             formRef.current.setErrors({})
-
+            
             if (novoCadastro) {
                 signup(data)
             } else {
+                
                 signin(data)
             }
 
@@ -115,13 +116,11 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
     async function signin (dados) {
         try {
 
-            
             const res = await api.post(`${server}/signin`, {
                 email: dados.email,
                 senha: dados.senha
             })
-
-
+            
             AsyncStorage.setItem('userData', JSON.stringify(res.data))
             api.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
 
@@ -177,9 +176,6 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
                                 />
                             }
                         </Form>
-
-
-
 
                     </View>
 

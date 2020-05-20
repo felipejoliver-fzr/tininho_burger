@@ -75,11 +75,11 @@ const Perfil = ({ dadosUsuario }) => {
                     <Header titulo='MINHA CONTA' />
                     <View style={styles.content}>
 
-                        <View style={styles.containerPerfil}>
+                        {/* <View style={styles.containerPerfil}>
                             <Image style={styles.containerFoto} source={imgPerfil} />
 
-                            <Text style={styles.nomePerfil}>Tininho</Text>
-                        </View>
+                            <Text style={styles.nomePerfil}>{dadosUsuario.dadosPerfil.nome}</Text>
+                        </View> */}
 
                         {renderOpcoesMenu()}
                     </View>
