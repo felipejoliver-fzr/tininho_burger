@@ -4,7 +4,7 @@ Aplicativo para realizar pedidos em um restaurante.
 ## O que é o projeto
 Projeto desenvolvido em React Native para aprofundar e aprimorar meus conhecimentos.
 
-## Principais funcionalidades
+## Funcionalidades do aplicativo
 
 ### Menu
 
@@ -27,6 +27,10 @@ Projeto desenvolvido em React Native para aprofundar e aprimorar meus conhecimen
 (em desenvolvimento)
 
 ### Histórico de pedidos (Meus pedidos)
+
+(em desenvolvimento)
+
+### Acompanhar status do pedido
 
 (em desenvolvimento)
 
