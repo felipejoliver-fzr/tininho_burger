@@ -57,7 +57,7 @@ export default props => {
                             }
                         }}
                         {...props}
-                        style={[styles.input, { fontSize: props.fontSize }]} />
+                        style={[styles.input, styles.inputDisabled, { fontSize: props.fontSize }]} />
                 }
                 {props.maskType &&
                     <TextInputMask
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
         width: '100%',
         color: '#47525e',
         maxWidth: '80%'
-
     },
     error: {
         color: '#f00'

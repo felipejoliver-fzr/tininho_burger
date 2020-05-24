@@ -8,6 +8,7 @@ import {
     TextInput,
     KeyboardAvoidingView,
     AsyncStorage
+    
 } from 'react-native'
 import { Form } from '@unform/mobile'
 import * as Yup from 'yup'
@@ -27,6 +28,7 @@ import { connect } from 'react-redux'
 const Login = ({dadosUsuarioAplicacao, dispatch}) => {
 
     const [novoCadastro, setNovoCadastro] = useState(false)
+    const [loadingButton, setLoadingButton] = useState(false)
     const formRef = useRef(null)
 
     const habilitarNovoCadastro = () => {
@@ -38,6 +40,8 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
             {children}
         </TouchableWithoutFeedback>
     );
+
+    
 
     async function handleSubmit(data, { reset }) {
         try {
@@ -116,6 +120,7 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
     async function signin (dados) {
         try {
 
+            setLoadingButton(true);
             const res = await api.post(`${server}/signin`, {
                 email: dados.email,
                 senha: dados.senha
@@ -124,9 +129,11 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
             AsyncStorage.setItem('userData', JSON.stringify(res.data))
             api.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
 
+            setLoadingButton(false);
             dispatch(loginActions.login(res.data))
 
         } catch (e) {
+            setLoadingButton(false);
             showError(e)
         }
     }
@@ -180,7 +187,8 @@ const Login = ({dadosUsuarioAplicacao, dispatch}) => {
                     </View>
 
                     <Button label={!novoCadastro ? 'Entrar' : 'Cadastrar'}
-                        style={styles.button}
+                        loadingButton={loadingButton}
+                        style={[styles.button, loadingButton ? styles.loadingButtonStyle : null]}
                         onPress={() => formRef.current.submitForm()}
                     />
 

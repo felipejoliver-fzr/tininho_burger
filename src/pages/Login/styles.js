@@ -24,7 +24,12 @@ export default StyleSheet.create({
     },
     button: {
         width: '50%',
-        marginTop: 10
+        marginTop: 10,
+        
+    },
+    loadingButtonStyle: {
+        color: '#47525e',
+        backgroundColor: 'rgba(16, 16, 16, 0.3)'
     },
     label: {
         fontWeight: '500',
