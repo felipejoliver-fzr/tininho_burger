@@ -1,7 +1,7 @@
 import { Alert, Platform } from 'react-native'
 
 const server = Platform.OS === 'ios'
-    ? 'http://192.168.0.5:8888' : 'http://10.0.2.2:8888'
+    ? 'http://192.168.0.3:8888' : 'http://10.0.2.2:8888'
 
 function showError(err) {
     if(err.response && err.response.data){
@@ -16,9 +16,7 @@ function showSucess(msg) {
     Alert.alert('Sucesso!', msg)
 }
 
-function isValidCPF() {
-    let number = '123'
-    console.log('esta na function cpf')
+function isValidCPF(number) {
     var sum;
     var rest;
     sum = 0;
